@@ -15,6 +15,12 @@ const features = [
   { icon: Shield, title: "Calmer Decisions", desc: "Keep your finances in one place with warm, focused guidance that stays easy to act on." },
 ];
 
+const proofPoints = [
+  { label: "Guided setup", value: "4-step onboarding" },
+  { label: "Review rhythm", value: "Weekly money loop" },
+  { label: "Support", value: "Live help center" },
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: (i: number) => ({
@@ -82,7 +88,7 @@ export default function Landing() {
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_4px_12px_-4px_rgba(var(--primary),0.2)]">
                 <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                Your AI Finance Assistant
+                Designed for calmer money decisions
               </div>
 
               <BrandLockup
@@ -96,11 +102,11 @@ export default function Landing() {
               />
 
               <h1 className="mx-auto max-w-4xl text-balance text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-7xl">
-                <span className="md:hidden">Money clarity, fast.</span><span className="hidden md:inline">Clarity for spending, <span className="text-primary">planning</span>, and calmer cashflow.</span>
+                <span className="md:hidden">See your money clearly.</span><span className="hidden md:inline">A premium workspace for <span className="text-primary">spending clarity</span>, steady planning, and calmer cashflow.</span>
               </h1>
 
               <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground md:max-w-2xl md:text-xl">
-                <span className="md:hidden">Ask EVA, track spending, and check what you can afford.</span><span className="hidden md:inline">eva helps you understand where money is going, what is coming next, and which decisions deserve your attention now.</span>
+                <span className="md:hidden">Track spending, forecast pressure, and keep the next decision simple.</span><span className="hidden md:inline">eva turns raw financial activity into a guided review loop so you can understand what changed, what matters right now, and what to do next.</span>
               </p>
 
               <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">
@@ -114,6 +120,15 @@ export default function Landing() {
                     {secondaryCta}
                   </Button>
                 </Link>
+              </div>
+
+              <div className="mx-auto mt-6 grid w-full max-w-3xl gap-3 text-left md:grid-cols-3">
+                {proofPoints.map((item) => (
+                  <div key={item.label} className="rounded-[1.35rem] border border-border/60 bg-card/70 px-4 py-4 shadow-[0_22px_50px_-38px_rgba(110,73,75,0.18)] backdrop-blur-md">
+                    <p className="font-mono text-[0.62rem] uppercase tracking-[0.22em] text-muted-foreground">{item.label}</p>
+                    <p className="mt-2 text-sm font-semibold text-foreground md:text-base">{item.value}</p>
+                  </div>
+                ))}
               </div>
 
               <div className="mx-auto mt-16 hidden max-w-4xl flex-col items-center gap-8 rounded-[2.5rem] border border-border/60 bg-card/40 px-6 py-10 shadow-[0_40px_100px_-40px_rgba(110,73,75,0.25)] backdrop-blur-2xl md:flex">
@@ -212,6 +227,9 @@ export default function Landing() {
             <nav aria-label="Footer navigation" className="flex items-center gap-6 md:gap-8">
               <Link to="/terms" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Terms</Link>
               <Link to="/privacy" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Privacy</Link>
+              <Link to="/cookie-policy" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Cookies</Link>
+              <a href="#" className="termly-display-preferences text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Consent Preferences</a>
+              <Link to="/help" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Support</Link>
               <a href="https://twitter.com/eva_finance" target="_blank" rel="noreferrer" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary" aria-label="Follow eva on Twitter">Twitter</a>
             </nav>
           </div>

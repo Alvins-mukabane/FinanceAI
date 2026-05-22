@@ -21,7 +21,7 @@ import { SUPPORT_BASE_URL } from "@/lib/supportLinks";
 import Landing from "@/pages/Landing";
 
 const pageLoaders = import.meta.glob<{ default: React.ComponentType<any> }>(
-  "./pages/{ActionHistory,ApprovalInbox,Auth,Budget,Chat,Dashboard,FinancialStatement,Goals,Insights,News,NotFound,Onboarding,Privacy,Settings,SpendingHistory,StockPicks,Subscriptions,Terms,Transactions}.tsx",
+  "./pages/{ActionHistory,ApprovalInbox,Auth,Budget,Chat,CookiePolicy,Dashboard,FinancialStatement,Goals,Insights,News,NotFound,Onboarding,Privacy,Settings,SpendingHistory,StockPicks,Subscriptions,Terms,Transactions}.tsx",
 );
 
 function isChunkLoadError(error: unknown) {
@@ -90,6 +90,7 @@ const StockPicks = lazyPage("./pages/StockPicks.tsx");
 const Subscriptions = lazyPage("./pages/Subscriptions.tsx");
 const Terms = lazyPage("./pages/Terms.tsx");
 const Privacy = lazyPage("./pages/Privacy.tsx");
+const CookiePolicy = lazyPage("./pages/CookiePolicy.tsx");
 const NotFound = lazyPage("./pages/NotFound.tsx");
 const Budget = lazyPage("./pages/Budget.tsx");
 const SpendingHistory = lazyPage("./pages/SpendingHistory.tsx");
@@ -351,6 +352,7 @@ const App = () => (
                     <Route path="/auth" element={<AuthPage />} />
                     <Route path="/terms" element={<RouteSuspense><Terms /></RouteSuspense>} />
                     <Route path="/privacy" element={<RouteSuspense><Privacy /></RouteSuspense>} />
+                    <Route path="/cookie-policy" element={<RouteSuspense><CookiePolicy /></RouteSuspense>} />
                     <Route path="/onboarding" element={<OnboardingPage />} />
                     <Route path="/dashboard" element={<ProtectedPage><Dashboard /></ProtectedPage>} />
                     <Route path="/approvals" element={<ProtectedPage><ApprovalInbox /></ProtectedPage>} />

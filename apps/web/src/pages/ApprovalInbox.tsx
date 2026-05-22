@@ -27,7 +27,7 @@ function formatDate(value: string | null) {
 function getIntentProvider(request: ApprovalRequest) {
   const intent = request.execution_intent;
   if (intent && typeof intent === "object" && "provider" in intent) {
-    return intent.provider === "utg" ? "UTG-backed if available" : "Manual external action";
+    return intent.provider === "utg" ? "Orbis-backed if available" : "Manual external action";
   }
 
   return "Manual external action";

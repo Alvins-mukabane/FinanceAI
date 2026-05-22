@@ -25,6 +25,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import UserProfileMenu from "./UserProfileMenu";
+import BrandLockup from "./BrandLockup";
 import { usePublicUser } from "@/context/PublicUserContext";
 
 type NavItem = {
@@ -185,8 +186,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         aria-label="Sidebar navigation"
         className="window-controls-safe-sidebar fixed inset-y-0 left-0 z-30 hidden h-screen w-[236px] flex-col gap-4 border-r border-border/60 bg-[hsl(var(--sidebar-background)/0.8)] p-4 pt-5 shadow-[20px_0_50px_-40px_rgba(110,73,75,0.2)] backdrop-blur-2xl md:flex"
       >
-        <div className="flex items-center justify-between px-1">
-          <AppLogoButton onClick={() => navigate("/dashboard")} />
+        <div className="rounded-[1.8rem] border border-border/50 bg-card/55 p-3 shadow-[0_20px_50px_-36px_rgba(110,73,75,0.18)]">
+          <button type="button" onClick={() => navigate("/dashboard")} className="w-full text-left">
+            <BrandLockup
+              size="sm"
+              subtitle="Calmer money systems"
+              iconClassName="h-11 w-11 rounded-[1.2rem]"
+              titleClassName="text-[1.15rem]"
+              subtitleClassName="font-mono text-[0.56rem] tracking-[0.22em]"
+            />
+          </button>
+          <p className="mt-3 px-1 text-xs leading-5 text-muted-foreground">
+            Review, plan, and approve your next move from one grounded finance workspace.
+          </p>
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1 scrollbar-none">
@@ -204,6 +216,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </nav>
         </div>
+
+        <a
+          href="#"
+          className="termly-display-preferences rounded-2xl border border-border/60 bg-card/70 px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Consent Preferences
+        </a>
       </aside>
 
       <div className="fixed right-6 top-5 z-40 hidden md:flex">
@@ -274,6 +293,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </motion.div>
                   ))}
                 </nav>
+                <a
+                  href="#"
+                  className="termly-display-preferences inline-flex rounded-2xl border border-border/50 bg-card/60 px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Consent Preferences
+                </a>
               </div>
             </SheetContent>
           </Sheet>

@@ -228,6 +228,7 @@ export default function Landing() {
               <Link to="/terms" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Terms</Link>
               <Link to="/privacy" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Privacy</Link>
               <Link to="/cookie-policy" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Cookies</Link>
+              <a href="#" className="termly-display-preferences text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Consent Preferences</a>
               <Link to="/help" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Support</Link>
               <a href="https://twitter.com/eva_finance" target="_blank" rel="noreferrer" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary" aria-label="Follow eva on Twitter">Twitter</a>
             </nav>

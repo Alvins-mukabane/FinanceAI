@@ -216,6 +216,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </nav>
         </div>
+
+        <a
+          href="#"
+          className="termly-display-preferences rounded-2xl border border-border/60 bg-card/70 px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Consent Preferences
+        </a>
       </aside>
 
       <div className="fixed right-6 top-5 z-40 hidden md:flex">
@@ -286,6 +293,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </motion.div>
                   ))}
                 </nav>
+                <a
+                  href="#"
+                  className="termly-display-preferences inline-flex rounded-2xl border border-border/50 bg-card/60 px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Consent Preferences
+                </a>
               </div>
             </SheetContent>
           </Sheet>

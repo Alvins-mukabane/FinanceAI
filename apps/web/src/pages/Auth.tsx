@@ -1147,6 +1147,7 @@ export default function Auth({ forcedMode }: AuthProps) {
           <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground">
             <Link to="/privacy" className="font-medium transition-colors hover:text-primary">Privacy</Link>
             <Link to="/cookie-policy" className="font-medium transition-colors hover:text-primary">Cookies</Link>
+            <a href="#" className="termly-display-preferences font-medium transition-colors hover:text-primary">Consent Preferences</a>
             <Link to="/terms" className="font-medium transition-colors hover:text-primary">Terms</Link>
             <Link to="/help" className="font-medium transition-colors hover:text-primary">Support</Link>
           </div>

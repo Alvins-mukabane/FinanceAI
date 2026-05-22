@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Pencil, Plus, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
@@ -37,6 +37,19 @@ export default function Goals() {
   const { bootstrap, saveGoal, deleteGoal, saving } = usePublicUser();
   const [showCreate, setShowCreate] = useState(false);
   const [draftGoal, setDraftGoal] = useState<DraftGoal>(emptyDraft);
+  const goalSummary = useMemo(() => {
+    const totalTarget = bootstrap.goals.reduce((sum, goal) => sum + Number(goal.target_amount || 0), 0);
+    const totalSaved = bootstrap.goals.reduce((sum, goal) => sum + Number(goal.current_amount || 0), 0);
+    const achieved = (bootstrap.goal_statuses ?? []).filter((goal) => goal.status === "achieved").length;
+    const needsAttention = (bootstrap.goal_statuses ?? []).filter((goal) => goal.status === "off_track").length;
+
+    return {
+      totalTarget,
+      totalSaved,
+      achieved,
+      needsAttention,
+    };
+  }, [bootstrap.goal_statuses, bootstrap.goals]);
 
   const openCreate = () => {
     setDraftGoal(emptyDraft);
@@ -92,34 +105,59 @@ export default function Goals() {
   };
 
   return (
-    <div className="mx-auto max-w-[860px] space-y-6 p-4 md:p-8">
+    <div className="mx-auto max-w-[980px] space-y-6 px-4 py-6 md:px-8">
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex items-start justify-between"
+        className="rounded-[1.9rem] border border-border/80 bg-card/95 p-5 shadow-[0_24px_70px_-42px_rgba(110,73,75,0.24)] md:p-6"
       >
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Goals</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Track the goals you actually care about, without seeded progress.
-          </p>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-muted-foreground">Planning</p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">Goals</h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Build goals around the progress you actually want to fund, then let eva keep the timeline, pace,
+              and monthly pressure visible.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={openCreate}
+            className="inline-flex items-center gap-1.5 rounded-2xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.97]"
+          >
+            <Plus className="h-4 w-4" />
+            New Goal
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={openCreate}
-          className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.97]"
-        >
-          <Plus className="h-3.5 w-3.5" />
-          New Goal
-        </button>
       </motion.div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-[1.5rem] border border-border/70 bg-background/85 p-5 shadow-sm">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Saved so far</p>
+          <p className="mt-3 text-2xl font-semibold text-foreground">{formatCurrency(goalSummary.totalSaved)}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Across every active goal in your workspace.</p>
+        </div>
+        <div className="rounded-[1.5rem] border border-border/70 bg-background/85 p-5 shadow-sm">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Targeted capital</p>
+          <p className="mt-3 text-2xl font-semibold text-foreground">{formatCurrency(goalSummary.totalTarget)}</p>
+          <p className="mt-2 text-sm text-muted-foreground">The full amount your current goals are aiming to fund.</p>
+        </div>
+        <div className="rounded-[1.5rem] border border-border/70 bg-background/85 p-5 shadow-sm">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Goal health</p>
+          <p className="mt-3 text-2xl font-semibold text-foreground">
+            {goalSummary.achieved} funded
+            <span className="text-base font-medium text-muted-foreground"> / {goalSummary.needsAttention} watch</span>
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">A quick read on what is already secure and what needs attention.</p>
+        </div>
+      </div>
 
       {showCreate && (
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-4 rounded-xl border border-border bg-card p-5"
+          className="space-y-4 rounded-[1.75rem] border border-border/80 bg-card/95 p-5 shadow-sm"
         >
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold">
@@ -208,10 +246,10 @@ export default function Goals() {
       )}
 
       {bootstrap.goals.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-12 text-center">
+        <div className="rounded-[1.9rem] border border-dashed border-border/80 bg-card/90 px-6 py-14 text-center shadow-sm">
           <p className="text-sm font-medium text-foreground">No goals yet</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Add your first real goal and eva will start tracking progress instead of placeholders.
+          <p className="mt-2 text-sm text-muted-foreground">
+            Add your first real goal and eva will start tracking funding progress instead of placeholders.
           </p>
         </div>
       ) : (

@@ -445,13 +445,13 @@ export default function Auth({ forcedMode }: AuthProps) {
             />
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/95 px-4 py-2 text-xs font-medium text-muted-foreground shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              EVA account access
+              Premium account access
             </div>
             <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-              {currentMode === "signup" && "Create your eva account and verify your email."}
-              {currentMode === "signin" && "Sign in and continue into your financial workspace."}
-              {currentMode === "verify-email" && "Check your inbox to keep moving."}
-              {currentMode === "set-password" && "Finish your account setup with a password."}
+              {currentMode === "signup" && "Create your eva workspace and verify your email."}
+              {currentMode === "signin" && "Return to your finance workspace with context intact."}
+              {currentMode === "verify-email" && "Confirm your inbox and keep the setup moving."}
+              {currentMode === "set-password" && "Finish your account setup with a stronger sign-in flow."}
             </h1>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
               {helperText}
@@ -501,6 +501,20 @@ export default function Auth({ forcedMode }: AuthProps) {
               {currentMode === "verify-email" && "Verification required"}
               {currentMode === "set-password" && "Choose a strong password"}
             </h2>
+          </div>
+
+          <div className="mb-6 grid gap-3 rounded-[1.4rem] border border-border/80 bg-background/75 p-4 text-left md:hidden">
+            {authHighlights.slice(0, 2).map((item) => (
+              <div key={item.title} className="flex items-start gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/12 text-primary">
+                  <item.icon className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                  <p className="text-xs leading-relaxed text-muted-foreground">{item.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
 
           {currentMode === "signin" && (
@@ -779,6 +793,14 @@ export default function Auth({ forcedMode }: AuthProps) {
                     .
                   </span>
                 </label>
+
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  eva uses essential cookies and browser storage for sign-in, saved progress, and workspace preferences as described in the{" "}
+                  <Link to="/cookie-policy" className="font-semibold text-primary hover:text-primary/85">
+                    Cookie Policy
+                  </Link>
+                  .
+                </p>
 
                 <label className="flex items-start gap-3">
                   <Checkbox
@@ -1120,6 +1142,13 @@ export default function Auth({ forcedMode }: AuthProps) {
                 Recovery help
               </a>
             </div>
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground">
+            <Link to="/privacy" className="font-medium transition-colors hover:text-primary">Privacy</Link>
+            <Link to="/cookie-policy" className="font-medium transition-colors hover:text-primary">Cookies</Link>
+            <Link to="/terms" className="font-medium transition-colors hover:text-primary">Terms</Link>
+            <Link to="/help" className="font-medium transition-colors hover:text-primary">Support</Link>
           </div>
         </motion.div>
       </div>

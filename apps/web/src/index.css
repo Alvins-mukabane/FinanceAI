@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +7,8 @@
 @layer base {
   :root {
     --app-font-size: 17px;
+    --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     --titlebar-area-x: 0px;
     --titlebar-area-y: 0px;
     --titlebar-area-width: 0px;
@@ -113,13 +117,14 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: "Roboto", "Open Sans", "Lato", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.75;
     background-image:
-      radial-gradient(circle at top center, hsl(31 95% 52% / 0.24), transparent 34%),
-      radial-gradient(circle at 82% 16%, hsl(149 53% 35% / 0.06), transparent 20%),
-      linear-gradient(180deg, hsl(35 100% 99%), hsl(35 78% 96%));
+      radial-gradient(circle at top center, hsl(31 95% 52% / 0.22), transparent 30%),
+      radial-gradient(circle at 78% 14%, hsl(149 53% 35% / 0.08), transparent 18%),
+      radial-gradient(circle at 18% 32%, hsl(34 58% 89% / 0.65), transparent 26%),
+      linear-gradient(180deg, hsl(34 100% 99%), hsl(34 72% 95%));
     background-attachment: fixed;
   }
 
@@ -159,6 +164,12 @@
 
   h1, h2, h3, h4 {
     letter-spacing: -0.02em;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: var(--font-mono);
   }
 
   ::selection {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -21,6 +21,19 @@ export default function Budget() {
   const [newCategory, setNewCategory] = useState(BUDGET_LIMIT_CATEGORIES[0]);
   const [newLimit, setNewLimit] = useState("");
   const [editLimit, setEditLimit] = useState("");
+  const budgetSummary = useMemo(() => {
+    const totalLimit = bootstrap.budget_limits.reduce((sum, budget) => sum + Number(budget.monthly_limit || 0), 0);
+    const totalSpent = (bootstrap.budget_statuses ?? []).reduce((sum, budget) => sum + Number(budget.spent_this_month || 0), 0);
+    const watchCount = (bootstrap.budget_statuses ?? []).filter((budget) => budget.status === "watch").length;
+    const overCount = (bootstrap.budget_statuses ?? []).filter((budget) => budget.status === "over").length;
+
+    return {
+      totalLimit,
+      totalSpent,
+      watchCount,
+      overCount,
+    };
+  }, [bootstrap.budget_limits, bootstrap.budget_statuses]);
 
   const usedCategories = bootstrap.budget_limits.map((budget) => budget.category);
   const availableCategories = BUDGET_LIMIT_CATEGORIES.filter(
@@ -78,24 +91,49 @@ export default function Budget() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6 px-4 py-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-foreground">Budget Limits</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Set monthly spending limits per category using your real data.
-          </p>
+    <div className="mx-auto max-w-3xl space-y-6 px-4 py-6 md:px-8">
+      <div className="rounded-[1.9rem] border border-border/80 bg-card/95 p-5 shadow-[0_24px_70px_-42px_rgba(110,73,75,0.24)] md:p-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-muted-foreground">Cashflow guardrails</p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">Budget Limits</h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Set monthly limits per category using your real data, then watch where your current pace is calm,
+              close to the line, or already over.
+            </p>
+          </div>
+          {!adding && availableCategories.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setAdding(true)}
+              className="inline-flex items-center gap-2 rounded-2xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <Plus className="h-4 w-4" />
+              Add limit
+            </button>
+          )}
         </div>
-        {!adding && availableCategories.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setAdding(true)}
-            className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            <Plus className="h-4 w-4" />
-            Add
-          </button>
-        )}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-[1.5rem] border border-border/70 bg-background/85 p-5 shadow-sm">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Monthly limit</p>
+          <p className="mt-3 text-2xl font-semibold text-foreground">{formatCurrencyDetailed(budgetSummary.totalLimit)}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Combined limit across every tracked category.</p>
+        </div>
+        <div className="rounded-[1.5rem] border border-border/70 bg-background/85 p-5 shadow-sm">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Spent this month</p>
+          <p className="mt-3 text-2xl font-semibold text-foreground">{formatCurrencyDetailed(budgetSummary.totalSpent)}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Current actual spend recorded against those categories.</p>
+        </div>
+        <div className="rounded-[1.5rem] border border-border/70 bg-background/85 p-5 shadow-sm">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Watch zones</p>
+          <p className="mt-3 text-2xl font-semibold text-foreground">
+            {budgetSummary.watchCount} near
+            <span className="text-base font-medium text-muted-foreground"> / {budgetSummary.overCount} over</span>
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">How many categories are currently close to or past their limit.</p>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -104,7 +142,7 @@ export default function Budget() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="space-y-3 rounded-xl border border-border bg-card p-4"
+            className="space-y-3 rounded-[1.75rem] border border-border/80 bg-card/95 p-4 shadow-sm"
           >
             <select
               value={newCategory}
@@ -148,7 +186,7 @@ export default function Budget() {
       </AnimatePresence>
 
       {bootstrap.budget_limits.length === 0 ? (
-        <div className="space-y-3 py-16 text-center">
+        <div className="space-y-3 rounded-[1.9rem] border border-dashed border-border/80 bg-card/90 py-16 text-center shadow-sm">
           <DollarSign className="mx-auto h-12 w-12 text-muted-foreground/30" />
           <p className="text-sm text-muted-foreground">No budget limits set yet</p>
           <p className="text-xs text-muted-foreground/70">

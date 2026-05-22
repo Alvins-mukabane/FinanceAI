@@ -143,7 +143,7 @@ async function dispatchToUtg(approvalRequest: FinanceApprovalRequest): Promise<D
         provider: "manual_external_account",
         utg: {
           attempted: false,
-          reason: "UTG dispatch is not configured, so EVA recorded a manual external action.",
+          reason: "Orbis dispatch is not configured, so EVA recorded a manual external action.",
         },
       },
     };
@@ -465,7 +465,7 @@ export async function approveRequest(
     user_id: userId,
     type: "execution_approved",
     title: "Proposal approved",
-    body: `${approvalRequest.title} is approved. ${dispatchAttempt.provider === "utg" ? "UTG received the dispatch, and EVA will keep the receipt auditable." : "Complete it externally, then reconcile the result in EVA."}`,
+    body: `${approvalRequest.title} is approved. ${dispatchAttempt.provider === "utg" ? "Orbis received the dispatch, and EVA will keep the receipt auditable." : "Complete it externally, then reconcile the result in EVA."}`,
   });
 
   if (notificationError) throw notificationError;

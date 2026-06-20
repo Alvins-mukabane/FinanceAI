@@ -1,4 +1,4 @@
-﻿name: flutter-ci
+name: flutter-ci
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Detect mobile workspace
         id: mobile

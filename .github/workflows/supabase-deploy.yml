@@ -30,7 +30,7 @@ jobs:
           fi
       - name: Setup Supabase CLI
         if: steps.secrets.outputs.available == 'true'
-        uses: supabase/setup-cli@v1
+        uses: supabase/setup-cli@v3
         with:
           version: latest
       - name: Deploy launch functions
